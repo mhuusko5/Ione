@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <title>Ione</title>
+
+    <link rel="stylesheet" href="resources/existence-font/stylesheet.css">
+    <link rel="stylesheet" href="resources/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="resources/lintel-font/stylesheet.css">
+    <script src="resources/leap.js"></script>
+    <script src="resources/jquery.js"></script>
+    <script src="ione.js"></script>
+    <script src="index.js"></script>
+</head>
+
+<body style="margin: 0; padding: 0; background-color: black; -webkit-user-select: none;">
+<div id="menu" style="position: absolute; width: 100%; height: 100%; z-index: 5;">
+    <div id="startScreen" style="position: absolute; width: 100%; height: 100%;  background-color: rgba(0, 0, 0, 0.8);">
+        <div style="position: absolute; width: 100%; top: 10.4vh; font-size: 42vh; text-align: center; font-family: Existence; color: rgba(256, 256, 256, 0.8);">
+            IONE
+        </div>
+        <i class="fa fa-repeat"
+           style="position: absolute; left: 8.4vh; bottom: 27vh; font-size: 15vh; color: rgba(256, 256, 256, 0.8);"></i>
+
+        <div style="position: absolute; left: 25vh; bottom: 30.8vh; font-size: 6vh; font-family: Lintel; color: rgba(256, 256, 256, 0.8);">
+            CIRCLE TO START
+        </div>
+
+        <div style="position: absolute; width: 100%; bottom: 13.4vh; text-align: center; font-size: 6vh; font-family: Lintel; color: rgba(256, 256, 256, 0.8);">
+            FIGURE THE REST OUT
+        </div>
+        <i class="fa fa-ellipsis-h"
+           style="position: absolute; width: 100%; bottom: 1.4vh; text-align: center; font-size: 15vh; color: rgba(256, 256, 256, 0.8);"></i>
+
+        <i class="fa fa-dot-circle-o"
+           style="position: absolute; right: 8.4vh; bottom: 27vh; font-size: 15vh; color: rgba(256, 256, 256, 0.8);"></i>
+
+        <div style="position: absolute; right: 25vh; bottom: 30.8vh; font-size: 6vh; font-family: Lintel; color: rgba(256, 256, 256, 0.8);">
+            TAP TO PAUSE
+        </div>
+    </div>
+    <div id="endScreen"
+         style="position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: none;">
+        <div id="endProgressLabel"
+             style="position: absolute; left: 3vw; bottom: 2vw; line-height: 6vw; font-size: 4.6vw; font-family: Lintel; color: rgba(256, 256, 256, 0.8);"></div>
+        <i class="fa fa-repeat"
+           style="position: absolute; height: 100%; right: 25vw; padding-top: 1vh; line-height: 100vh; font-size: 30vw; color: rgba(256, 256, 256, 0.8);"></i>
+
+        <div style="position: absolute; height: 100%; right: 32.2vw; padding-top: 1vh; line-height: 100vh; font-size: 2.6vw; font-family: Lintel; color: rgba(256, 256, 256, 0.8);">
+            TRY AGAIN
+        </div>
+    </div>
+</div>
+<div id="game" style="position: absolute; width: 100%; height: 100%; z-index: 4;">
+    <div id="pauseOverlay"
+         style="position: absolute; width: 100%; height: 100%; z-index: 3; background-color: rgba(0, 0, 0, 0.8); display: none;">
+        <i class="fa fa-fw fa-pause"
+           style="position: absolute; width: 100%; height: 100%; padding-right: 1vh; line-height: 100vh; font-size: 24vw; color: rgba(256, 256, 256, 0.8);"></i>
+
+        <div style="position: absolute; left: 3vw; bottom: 2vw; font-size: 2.6vw; font-family: Lintel; color: rgba(256, 256, 256, 0.8);">
+            TAP TO RESUME
+        </div>
+    </div>
+    <div id="progressArea"
+         style="position: absolute; left: 0; top: 0; height: 7.2vw; min-width: 10.2vw; padding-right: 1.6vw; z-index: 2; background-color: rgba(0, 0, 0, 0.8); display: none;">
+        <div id="progressLabel"
+             style="position: relative; left: 0.82vw; top: 0.47vw; font-size: 1.6vw; font-family: Lintel; color: rgba(256, 256, 256, 0.8);"></div>
+    </div>
+    <canvas id="ione"
+            style="position: absolute; width: 100%; height: 100%; z-index: 1; background-color: #111111;"></canvas>
+</div>
+</body>
+
+</html>

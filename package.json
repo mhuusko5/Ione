@@ -1,0 +1,15 @@
+{
+  "main": "index.html",
+  "name": "Ione",
+  "single-instance": true,
+  "description": "Ione",
+  "version": "0.90",
+  "window": {
+    "icon": "Icon.png",
+    "title": "Ione",
+    "toolbar": false,
+    "frame": false,
+    "show": false
+  },
+  "no-edit-menu": true
+}
