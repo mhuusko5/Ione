@@ -26,7 +26,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="64" selection-start="4165" selection-end="4165" vertical-scroll-proportion="-6.4444447" vertical-offset="1086" max-vertical-offset="1548">
+            <state line="70" column="64" selection-start="4165" selection-end="4165" vertical-scroll-proportion="0.0" vertical-offset="1086" max-vertical-offset="1548">
               <folding />
             </state>
           </provider>
@@ -44,7 +44,7 @@
       <file leaf-file-name="ione.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ione.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="295" column="8" selection-start="14570" selection-end="14570" vertical-scroll-proportion="0.073627844" vertical-offset="5255" max-vertical-offset="10098">
+            <state line="326" column="45" selection-start="17370" selection-end="17370" vertical-scroll-proportion="0.82061577" vertical-offset="5255" max-vertical-offset="10098">
               <folding />
             </state>
           </provider>
@@ -75,8 +75,8 @@
         <option value="$PROJECT_DIR$/resources/existence-font/stylesheet.css" />
         <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/ione.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/ione.js" />
       </list>
     </option>
   </component>
@@ -174,6 +174,14 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -184,23 +192,15 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -255,11 +255,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32741117" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -302,6 +302,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="64" selection-start="4165" selection-end="4165" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1548">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="174" column="8" selection-start="5471" selection-end="5471" vertical-scroll-proportion="0.0" vertical-offset="3132" max-vertical-offset="4032">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ione.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="295" column="8" selection-start="14570" selection-end="14570" vertical-scroll-proportion="0.0" vertical-offset="5255" max-vertical-offset="10098">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="14" selection-start="1122" selection-end="1122" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="1458">
           <folding />
         </state>
@@ -316,9 +337,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="15" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="360">
-          <folding />
-        </state>
+        <state line="2" column="15" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="360" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
@@ -337,9 +356,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="15" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="360">
-          <folding />
-        </state>
+        <state line="2" column="15" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="360" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
@@ -423,21 +440,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="64" selection-start="4165" selection-end="4165" vertical-scroll-proportion="-6.4444447" vertical-offset="1086" max-vertical-offset="1548">
+        <state line="70" column="64" selection-start="4165" selection-end="4165" vertical-scroll-proportion="0.0" vertical-offset="1086" max-vertical-offset="1548">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="20" selection-start="175" selection-end="175" vertical-scroll-proportion="0.19645293" vertical-offset="0" max-vertical-offset="733">
-          <folding />
-        </state>
+        <state line="8" column="20" selection-start="175" selection-end="175" vertical-scroll-proportion="0.19645293" vertical-offset="0" max-vertical-offset="733" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ione.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="295" column="8" selection-start="14570" selection-end="14570" vertical-scroll-proportion="0.073627844" vertical-offset="5255" max-vertical-offset="10098">
+        <state line="326" column="45" selection-start="17370" selection-end="17370" vertical-scroll-proportion="0.82061577" vertical-offset="5255" max-vertical-offset="10098">
           <folding />
         </state>
       </provider>

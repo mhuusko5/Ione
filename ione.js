@@ -324,7 +324,7 @@ window.Ione = function () {
                 level: gameLevel,
                 score: Math.round(gameScore),
                 seconds: Math.round(100 * (((new Date).getTime() - gameTime) / 1000)) / 100,
-                lives: playerObject.lives
+                lives: playerObject.lives + 1
             });
         }
 
