@@ -1,4 +1,5 @@
 var $window = $(window);
+var $document = $(document);
 $window.ready(function () {
     var $body = $('body');
     var $emptyStyle = $('<style>');
@@ -10,6 +11,7 @@ $window.ready(function () {
     var $progressLabel = $('#progressLabel');
     var $pauseOverlay = $('#pauseOverlay');
     var $ione = $('#ione');
+    var $leapWarning = $('#leapWarning');
     var ione = new Ione();
     var leapController = new Leap.Controller({enableGestures: true, frameEventName: 'animationFrame'});
 
@@ -46,7 +48,7 @@ $window.ready(function () {
     }
 
     function updateGameProgess(currentProgress) {
-        $progressLabel[0].innerHTML = 'LEVEL: ' + currentProgress.level + '<br>SCORE: ' + currentProgress.score + '<br>TIME: ' + Math.round(currentProgress.seconds) + 's';
+        $progressLabel[0].innerHTML = 'LEVEL: ' + currentProgress.level + '<br>SCORE: ' + currentProgress.score + '<br>TIME: ' + Math.round(currentProgress.seconds) + 's'+ '<br>LIVES: ' + currentProgress.lives;
     }
 
     function showGameEnded(endProgress) {
@@ -61,16 +63,20 @@ $window.ready(function () {
 
     ////////////////////////////////////////////////////////////////////////////
 
+    function leapConnected() {
+        $leapWarning.css('display', 'none');
+    }
+
     function leapDisconnected() {
         if (ione.gameInProgress() && !ione.gamePaused()) {
             pauseGame();
         }
 
-        alert('Leap Motion Controller disconnected!');
+        $leapWarning.css('display', 'block');
     }
 
     function leapNotConnected() {
-        alert('Please connect your Leap Motion Controller!');
+        $leapWarning.css('display', 'block');
     }
 
     function returnLeapPosition() {
@@ -107,13 +113,22 @@ $window.ready(function () {
         }, ms);
     }
 
+    var lastHandDate = new Date();
+
     function checkLeapGestures(leapFrame) {
-        if (!nwFocused || ignoringGestures) {
+        if (!nwFocused || ignoringGestures || !leapFrame || !leapFrame.valid) {
+            return;
+        }
+
+        if (leapFrame.pointables.length > 0) {
+            lastHandDate = new Date();
+        } else if (new Date() - lastHandDate > 2000) {
+            pauseGame();
             return;
         }
 
         var gestures;
-        if (leapFrame && leapFrame.valid && (gestures = leapFrame.gestures) && gestures.length > 0) {
+        if ((gestures = leapFrame.gestures) && gestures.length > 0) {
             if (ione.gameInProgress()) {
                 var tapCount = 0;
                 for (var i = 0; i < gestures.length; i++) {
@@ -147,6 +162,8 @@ $window.ready(function () {
 
     leapController.on('ready', function () {
         leapController.initialReady = true;
+
+        leapConnected();
     });
 
     leapController.connect();
@@ -155,7 +172,7 @@ $window.ready(function () {
         if (!leapController.initialReady) {
             leapNotConnected();
         }
-    }, 4000);
+    }, 2000);
 
     ione.initialize($ione, returnLeapPosition, updateGameProgess, showGameEnded);
 
@@ -190,5 +207,13 @@ $window.ready(function () {
         });
 
         nwWin.maximize();
+
+        $document.keyup(function(e) {
+            if (e.keyCode == 27) {
+                nwGui.App.quit();
+            }
+        });
+    } else {
+        nwFocused = true;
     }
 });

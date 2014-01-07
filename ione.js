@@ -298,10 +298,10 @@ window.Ione = function () {
             p.position.x += t * p.force;
             p.position.y += g * p.force
         }
-        u.length < 27 * h && u.push(Ba(new Ca));
+        u.length < 27 * h && u.push(RandomizePosition(new RedDot));
         if (1 > z.length && 0.994 < Math.random() && false == playerObject.isBoosted()) {
             for (h = new PowerupObject; h.type == lifeString && playerObject.lives >= maxStoredLives;) h.randomizeType();
-            z.push(Ba(h))
+            z.push(RandomizePowerupPosition(h))
         }
         true == playerObject.shield && playerActive;
         for (d = 0; d < U.length; d++) p = U[d], p.velocity.x += 0.04 * (t - p.velocity.x), p.velocity.y += 0.04 * (g - p.velocity.y), p.position.x += p.velocity.x, p.position.y += p.velocity.y, p.alpha -= 0.02, worldContext.fillStyle = "rgba(255,255,255," + Math.max(p.alpha, 0) + ")", worldContext.fillRect(p.position.x, p.position.y, 1, 1), C(p.position.x, p.position.y, 2), 0 >= p.alpha && U.splice(d, 1);
@@ -323,7 +323,8 @@ window.Ione = function () {
             sendProgess({
                 level: gameLevel,
                 score: Math.round(gameScore),
-                seconds: Math.round(100 * (((new Date).getTime() - gameTime) / 1000)) / 100
+                seconds: Math.round(100 * (((new Date).getTime() - gameTime) / 1000)) / 100,
+                lives: playerObject.lives
             });
         }
 
@@ -342,7 +343,12 @@ window.Ione = function () {
         });
     }
 
-    function Ba(a) {
+    function RandomizePowerupPosition(a) {
+        0.5 < Math.random() ? (a.position.x = 0.25 * worldRect.width + 0.5 * Math.random() * worldRect.width, a.position.y = -20) : (a.position.x = worldRect.width + 20, a.position.y = 0.25 * worldRect.height + 0.4 * Math.random() * worldRect.height);
+        return a;
+    }
+
+    function RandomizePosition(a) {
         0.5 < Math.random() ? (a.position.x = Math.random() * worldRect.width, a.position.y = -20) : (a.position.x = worldRect.width + 20, a.position.y = 0.2 * -worldRect.height + 1.2 * Math.random() * worldRect.height);
         return a;
     }
@@ -365,7 +371,7 @@ window.Ione = function () {
         this.sizefactor = 0
     }
 
-    function Ca() {
+    function RedDot() {
         this.position = {
             x: 0,
             y: 0
@@ -393,7 +399,7 @@ window.Ione = function () {
     PlayerObject.prototype.isBoosted = function () {
         return 0 != this.shield || 0 != this.gravityfactor
     };
-    Ca.prototype = new Point;
+    RedDot.prototype = new Point;
     PowerupObject.prototype = new Point;
     PowerupObject.prototype.randomizeType = function () {
         this.type = powerupStrings[Math.round(Math.random() * (powerupStrings.length - 1))];
