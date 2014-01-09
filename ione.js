@@ -315,7 +315,7 @@ window.Ione = function () {
 
         if (playerActive) {
             if (h = I > levelAttributeList[gameLevel - 1].duration) {
-                gameLevel < levelAttributeList.length ? (gameLevel++, I = 0, h = true) : h = false;
+                gameLevel < levelAttributeList.length ? (levelUp(++gameLevel), I = 0, h = true) : h = false;
             }
 
             h && (n.message = "LEVEL " + gameLevel + "!", n.progress = 0, n.target = 1);
@@ -423,7 +423,7 @@ window.Ione = function () {
             y: 0,
             width: 0,
             height: 0
-        }, $game, world, worldContext, sendProgess, endGame, cursorPos, getCursorPosition = null,
+        }, $game, world, worldContext, sendProgess, levelUp, endGame, cursorPos, getCursorPosition = null,
         n = {
             messsage: "",
             progress: 0,
@@ -514,13 +514,14 @@ window.Ione = function () {
         ha = (new Date).getTime(),
         ga = 0;
 
-    this.initialize = function ($canvas, cursorPostionFunction, progressCallback, gameendCallback) {
+    this.initialize = function ($canvas, cursorPostionFunction, progressCallback, levelUpCallback, gameendCallback) {
         $game = $canvas.parent();
         world = $canvas[0];
         worldContext = world.getContext("2d");
 
         getCursorPosition = cursorPostionFunction;
         sendProgess = progressCallback;
+        levelUp = levelUpCallback;
         endGame = gameendCallback;
 
         playerObject = new PlayerObject();

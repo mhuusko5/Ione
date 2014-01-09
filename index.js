@@ -12,12 +12,33 @@ $window.ready(function () {
     var $pauseOverlay = $('#pauseOverlay');
     var $ione = $('#ione');
     var $leapWarning = $('#leapWarning');
+    var introSound = $('#introSound')[0];
+    var repeatSound = $('#repeatSound')[0];
     var ione = new Ione();
     var leapController = new Leap.Controller({enableGestures: true, frameEventName: 'animationFrame'});
+
+    introSound.preload = true;
+    repeatSound.preload = true;
+    introSound.loop = false;
+    repeatSound.loop = true;
+    introSound.addEventListener('ended', repeatSound.play);
+
+    function resetSound() {
+        try {
+            introSound.pause();
+            repeatSound.pause();
+            introSound.currentTime = 0;
+            repeatSound.currentTime = 0;
+        } catch (e) {};
+    }
+    resetSound();
 
     function pauseGame() {
         if (ione.gameInProgress() && !ione.gamePaused()) {
             ignoreLeapGestures(150);
+
+            introSound.pause();
+            repeatSound.pause();
 
             ione.pauseGame();
             $pauseOverlay.css('display', 'block');
@@ -27,6 +48,12 @@ $window.ready(function () {
     function resumeGame() {
         if (ione.gameInProgress() && ione.gamePaused()) {
             ignoreLeapGestures(600);
+
+            if (repeatSound.currentTime > 0) {
+                repeatSound.play();
+            } else {
+                introSound.play();
+            }
 
             ione.resumeGame();
             $pauseOverlay.css('display', 'none');
@@ -43,15 +70,24 @@ $window.ready(function () {
 
             $progressArea.css('display', 'block');
 
+            resetSound();
+            introSound.play();
+
             ione.startGame();
         }
     }
 
     function updateGameProgess(currentProgress) {
-        $progressLabel[0].innerHTML = 'LEVEL: ' + currentProgress.level + '<br>SCORE: ' + currentProgress.score + '<br>TIME: ' + Math.round(currentProgress.seconds) + 's'+ '<br>LIVES: ' + currentProgress.lives;
+        $progressLabel[0].innerHTML = 'LEVEL: ' + currentProgress.level + '<br>SCORE: ' + currentProgress.score + '<br>TIME: ' + Math.round(currentProgress.seconds) + 's' + '<br>LIVES: ' + currentProgress.lives;
+    }
+
+    function reachedNextLevel() {
+
     }
 
     function showGameEnded(endProgress) {
+        resetSound();
+
         ignoreLeapGestures(800);
 
         $progressArea.css('display', 'none');
@@ -64,15 +100,23 @@ $window.ready(function () {
     ////////////////////////////////////////////////////////////////////////////
 
     function leapConnected() {
-        $leapWarning.css('display', 'none');
+        if (!leapController.sendingInput) {
+            leapController.sendingInput = true;
+
+            $leapWarning.css('display', 'none');
+        }
     }
 
     function leapDisconnected() {
-        if (ione.gameInProgress() && !ione.gamePaused()) {
-            pauseGame();
-        }
+        if (leapController.sendingInput) {
+            leapController.sendingInput = false;
 
-        $leapWarning.css('display', 'block');
+            if (ione.gameInProgress() && !ione.gamePaused()) {
+                pauseGame();
+            }
+
+            $leapWarning.css('display', 'block');
+        }
     }
 
     function leapNotConnected() {
@@ -114,9 +158,18 @@ $window.ready(function () {
     }
 
     var lastHandDate = new Date();
+    var lastFrameId = -1;
 
     function checkLeapGestures(leapFrame) {
-        if (!nwFocused || ignoringGestures || !leapFrame || !leapFrame.valid) {
+        if (ignoringGestures || !leapFrame || !leapFrame.valid || leapFrame.id == lastFrameId) {
+            return;
+        }
+
+        lastFrameId = leapFrame.id;
+
+        leapConnected();
+
+        if (!nwFocused) {
             return;
         }
 
@@ -156,25 +209,25 @@ $window.ready(function () {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    leapController.on('deviceDisconnected', function () {
-        leapDisconnected();
-    });
+    function respondToLeapMessages(messages, callback) {
+        for (var mKey in messages) {
+            leapController.on(messages[mKey], callback);
+        }
+    }
 
-    leapController.on('ready', function () {
-        leapController.initialReady = true;
+    respondToLeapMessages(['deviceDisconnected', 'disconnect'], leapDisconnected);
 
-        leapConnected();
-    });
+    respondToLeapMessages(['ready'], leapConnected);
 
     leapController.connect();
 
     setTimeout(function () {
-        if (!leapController.initialReady) {
+        if (!leapController.sendingInput) {
             leapNotConnected();
         }
     }, 2000);
 
-    ione.initialize($ione, returnLeapPosition, updateGameProgess, showGameEnded);
+    ione.initialize($ione, returnLeapPosition, updateGameProgess, reachedNextLevel, showGameEnded);
 
     leapController.loop(checkLeapGestures);
 
@@ -188,13 +241,13 @@ $window.ready(function () {
     if (typeof require != 'undefined' && (nwGui = require('nw.gui'))) {
         var nwWin = nwGui.Window.get();
 
-        nwWin.on('blur', function() {
+        nwWin.on('blur', function () {
             pauseGame();
 
             nwFocused = false;
         });
 
-        nwWin.on('focus', function() {
+        nwWin.on('focus', function () {
             nwFocused = true;
         });
 
@@ -208,7 +261,7 @@ $window.ready(function () {
 
         nwWin.maximize();
 
-        $document.keyup(function(e) {
+        $document.keyup(function (e) {
             if (e.keyCode == 27) {
                 nwGui.App.quit();
             }
