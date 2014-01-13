@@ -17,11 +17,9 @@ $window.ready(function () {
     var ione = new Ione();
     var leapController = new Leap.Controller({enableGestures: true, frameEventName: 'animationFrame'});
 
-    introSound.preload = true;
-    repeatSound.preload = true;
     introSound.loop = false;
     repeatSound.loop = true;
-    introSound.addEventListener('ended', repeatSound.play);
+    introSound.addEventListener('ended', function() { repeatSound.play() });
 
     function resetSound() {
         try {
