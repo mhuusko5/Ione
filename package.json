@@ -3,7 +3,7 @@
   "name": "Ione",
   "single-instance": true,
   "description": "Ione",
-  "version": "1.00",
+  "version": "1.02",
   "window": {
     "icon": "Icon.png",
     "title": "Ione",

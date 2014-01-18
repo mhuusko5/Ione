@@ -1,4 +1,4 @@
-window.Ione = function () {
+window.Ione = function() {
     function Point(c, k) {
         this.position = {
             x: c,
@@ -6,13 +6,12 @@ window.Ione = function () {
         };
     }
 
-    Point.prototype.distanceTo = function (c) {
-        var k = c.x - this.position.x,
-            c = c.y - this.position.y;
+    Point.prototype.distanceTo = function(c) {
+        var k = c.x - this.position.x, c = c.y - this.position.y;
         return Math.sqrt(k * k + c * c);
     };
 
-    Point.prototype.clonePosition = function () {
+    Point.prototype.clonePosition = function() {
         return {
             x: this.position.x,
             y: this.position.y
@@ -24,38 +23,38 @@ window.Ione = function () {
         this.bottom = this.right = 0;
     }
 
-    Region.prototype.reset = function () {
+    Region.prototype.reset = function() {
         this.top = this.left = 999999;
         this.bottom = this.right = 0;
     };
 
-    Region.prototype.inflate = function (c, k) {
+    Region.prototype.inflate = function(c, k) {
         this.left = Math.min(this.left, c);
         this.top = Math.min(this.top, k);
         this.right = Math.max(this.right, c);
         this.bottom = Math.max(this.bottom, k);
     };
 
-    Region.prototype.expand = function (c, k) {
+    Region.prototype.expand = function(c, k) {
         this.left -= c;
         this.top -= k;
         this.right += 2 * c;
         this.bottom += 2 * k;
     };
 
-    Region.prototype.contains = function (c, k) {
+    Region.prototype.contains = function(c, k) {
         return c > this.left && c < this.right && k > this.top && k < this.bottom;
     };
 
-    Region.prototype.size = function () {
+    Region.prototype.size = function() {
         return (this.right - this.left + (this.bottom - this.top)) / 2;
     };
 
-    Region.prototype.center = function () {
+    Region.prototype.center = function() {
         return new Point(this.left + (this.right - this.left) / 2, this.top + (this.bottom - this.top) / 2);
     };
 
-    Region.prototype.toRectangle = function () {
+    Region.prototype.toRectangle = function() {
         return {
             x: this.left,
             y: this.top,
@@ -132,19 +131,14 @@ window.Ione = function () {
         h = (new Date).getTime();
         ga++;
         h > ha + 1000 && (currentFps = Math.min(Math.round(1000 * ga / (h - ha)), desiredFrameRate), da = Math.min(da, currentFps), ea = Math.max(ea, currentFps), ha = h, ga = 0);
-        var g = levelAttributeList[gameLevel - 1],
-            l = levelAttributeList[gameLevel],
-            h = g.factor,
-            t = g.multiplier;
+        var g = levelAttributeList[gameLevel - 1], l = levelAttributeList[gameLevel], h = g.factor, t = g.multiplier;
         gameLevel < levelAttributeList.length && playerActive && (h += I / g.duration * (l.factor - g.factor));
 
         l = 0.01 + 0.99 * (Math.max(Math.min(currentFps, desiredFrameRate), 0) / desiredFrameRate);
 
         (l = l * l * t) || (l = 0.5);
 
-        var t = baseMovementVector.x * h * (1 - playerObject.timefactor),
-            g = baseMovementVector.y * h * (1 - playerObject.timefactor),
-            d, j, f;
+        var t = baseMovementVector.x * h * (1 - playerObject.timefactor), g = baseMovementVector.y * h * (1 - playerObject.timefactor), d, j, f;
         j = true == playerObject.flicker % 4 || 2 == playerObject.flicker % 4;
 
         if (playerActive) {
@@ -251,10 +245,10 @@ window.Ione = function () {
             p.offset.x *= 0.95;
             p.offset.y *= 0.95;
             j = p.distanceTo(playerObject.position);
-            if (playerActive)
-                if (0 < playerObject.gravityfactor) q = Math.atan2(p.position.y - playerObject.position.y, p.position.x - playerObject.position.x), f = playerObject.gravityfactor * baseGravityRate, j < f && (p.offset.x += 0.2 * (Math.cos(q) *
-                    (f - j) - p.offset.x), p.offset.y += 0.2 * (Math.sin(q) * (f - j) - p.offset.y));
-                else if (0 < playerObject.shield && j < 0.5 * (4 * playerObject.size + p.size)) {
+            if (playerActive) {
+                if (0 < playerObject.gravityfactor) {
+                    q = Math.atan2(p.position.y - playerObject.position.y, p.position.x - playerObject.position.x), f = playerObject.gravityfactor * baseGravityRate, j < f && (p.offset.x += 0.2 * (Math.cos(q) * (f - j) - p.offset.x), p.offset.y += 0.2 * (Math.sin(q) * (f - j) - p.offset.y));
+                } else if (0 < playerObject.shield && j < 0.5 * (4 * playerObject.size + p.size)) {
                     L(p.position, 10);
                     u.splice(d, 1);
                     d--;
@@ -262,7 +256,10 @@ window.Ione = function () {
                     v += 20 * l;
                     createTrailingPointText(Math.ceil(20 * l), p.clonePosition(), p.force);
                     continue
-                } else j < 0.5 * (playerObject.size + p.size) && 0 == playerObject.flicker && (0 < playerObject.lives ? (L(playerObject.position, 4), playerObject.lives--, playerObject.flicker += 60, u.splice(d, 1), d--) : (L(playerObject.position, 10), playerDied()));
+                } else {
+                    j < 0.5 * (playerObject.size + p.size) && 0 == playerObject.flicker && (0 < playerObject.lives ? (L(playerObject.position, 4), playerObject.lives--, playerObject.flicker += 60, u.splice(d, 1), d--) : (L(playerObject.position, 10), playerDied()));
+                }
+            }
             worldContext.beginPath();
             worldContext.fillStyle = "#ff0000";
             worldContext.arc(p.position.x + p.offset.x, p.position.y + p.offset.y, p.size / 2, 0, 2 * Math.PI, true);
@@ -270,21 +267,26 @@ window.Ione = function () {
             C(p.position.x + p.offset.x, p.position.y + p.offset.y, p.size);
             p.position.x += t * p.force;
             p.position.y += g * p.force;
-            if (p.position.x < -p.size || p.position.y > worldRect.height + p.size) u.splice(d, 1), d--, playerActive && I++
+            if (p.position.x < -p.size || p.position.y > worldRect.height + p.size) {
+                u.splice(d, 1), d--, playerActive && I++
+            }
         }
         for (d = 0; d < z.length; d++) {
             p = z[d];
             if (p.distanceTo(playerObject.position) < 0.5 * (playerObject.size + p.size) && playerActive) {
                 p.type == shieldString ? playerObject.shield = 300 : p.type == lifeString ? playerObject.lives < maxStoredLives && (createTrailingPointText("LIFE UP!", p.clonePosition(), p.force), playerObject.lives = Math.min(playerObject.lives + 1, maxStoredLives)) : p.type == gravityWarpString ? playerObject.gravitywarped = true : p.type == timewarpString ? playerObject.timewarped = true : p.type == sizewarpString && (playerObject.sizewarped = true);
                 p.type != lifeString && (gameScore += 50 * l, v += 50 * l, createTrailingPointText(Math.ceil(50 * l), p.clonePosition(), p.force));
-                for (j = 0; j < u.length; j++) e = u[j], 100 > e.distanceTo(p.position) && (L(e.position, 10), u.splice(j, 1), j--, gameScore += 20 * l, v += 20 * l, createTrailingPointText(Math.ceil(20 * l), e.clonePosition(), e.force));
+                for (j = 0; j < u.length; j++) {
+                    e = u[j], 100 > e.distanceTo(p.position) && (L(e.position, 10), u.splice(j, 1), j--, gameScore += 20 * l, v += 20 * l, createTrailingPointText(Math.ceil(20 * l), e.clonePosition(), e.force));
+                }
                 z.splice(d, 1);
                 d--
-            } else if (p.position.x < -p.size || p.position.y > worldRect.height + p.size) z.splice(d, 1), d--;
+            } else if (p.position.x < -p.size || p.position.y > worldRect.height + p.size) {
+                z.splice(d, 1), d--;
+            }
             j = "";
             f = "#000";
-            p.type === shieldString ? (j = "S", f = "#007766") : p.type === lifeString ? (j = "1", f = "#009955") :
-                p.type === gravityWarpString ? (j = "G", f = "#225599") : p.type === timewarpString ? (j = "T", f = "#665599") : p.type === sizewarpString && (j = "M", f = "#acac00");
+            p.type === shieldString ? (j = "S", f = "#007766") : p.type === lifeString ? (j = "1", f = "#009955") : p.type === gravityWarpString ? (j = "G", f = "#225599") : p.type === timewarpString ? (j = "T", f = "#665599") : p.type === sizewarpString && (j = "M", f = "#acac00");
             worldContext.beginPath();
             worldContext.fillStyle = f;
             worldContext.arc(p.position.x, p.position.y, p.size / 2, 0, 2 * Math.PI, true);
@@ -300,16 +302,20 @@ window.Ione = function () {
         }
         u.length < 27 * h && u.push(RandomizePosition(new RedDot));
         if (1 > z.length && 0.994 < Math.random() && false == playerObject.isBoosted()) {
-            for (h = new PowerupObject; h.type == lifeString && playerObject.lives >= maxStoredLives;) h.randomizeType();
+            for (h = new PowerupObject; h.type == lifeString && playerObject.lives >= maxStoredLives;) {
+                h.randomizeType();
+            }
             z.push(RandomizePowerupPosition(h))
         }
         true == playerObject.shield && playerActive;
-        for (d = 0; d < U.length; d++) p = U[d], p.velocity.x += 0.04 * (t - p.velocity.x), p.velocity.y += 0.04 * (g - p.velocity.y), p.position.x += p.velocity.x, p.position.y += p.velocity.y, p.alpha -= 0.02, worldContext.fillStyle = "rgba(255,255,255," + Math.max(p.alpha, 0) + ")", worldContext.fillRect(p.position.x, p.position.y, 1, 1), C(p.position.x, p.position.y, 2), 0 >= p.alpha && U.splice(d, 1);
-        for (d = 0; d < trailingPointsText.length; d++) p = trailingPointsText[d], p.position.x += t * p.force, p.position.y +=
-            g * p.force, p.position.y -= 1, h = worldContext.measureText(p.text).width, l = p.position.x - 0.5 * h, worldContext.save(), worldContext.font = "10px Arial", worldContext.fillStyle = "rgba( 255, 255, 255, " + p.alpha + " )", worldContext.fillText(p.text, l, p.position.y), worldContext.restore(), V(l - 5, p.position.y - 12, h + 8, 22), p.alpha *= 0.96, 0.05 > p.alpha && (trailingPointsText.splice(d, 1), d--);
+        for (d = 0; d < U.length; d++) {
+            p = U[d], p.velocity.x += 0.04 * (t - p.velocity.x), p.velocity.y += 0.04 * (g - p.velocity.y), p.position.x += p.velocity.x, p.position.y += p.velocity.y, p.alpha -= 0.02, worldContext.fillStyle = "rgba(255,255,255," + Math.max(p.alpha, 0) + ")", worldContext.fillRect(p.position.x, p.position.y, 1, 1), C(p.position.x, p.position.y, 2), 0 >= p.alpha && U.splice(d, 1);
+        }
+        for (d = 0; d < trailingPointsText.length; d++) {
+            p = trailingPointsText[d], p.position.x += t * p.force, p.position.y += g * p.force, p.position.y -= 1, h = worldContext.measureText(p.text).width, l = p.position.x - 0.5 * h, worldContext.save(), worldContext.font = "10px Arial", worldContext.fillStyle = "rgba( 255, 255, 255, " + p.alpha + " )", worldContext.fillText(p.text, l, p.position.y), worldContext.restore(), V(l - 5, p.position.y - 12, h + 8, 22), p.alpha *= 0.96, 0.05 > p.alpha && (trailingPointsText.splice(d, 1), d--);
+        }
         n.message && "" !== n.message && (n.progress += 0.05 * (n.target - n.progress), 0.9999999 < n.progress ? n.target = 0 : 0 == n.target && 0.05 > n.progress && (n.message = ""), worldContext.save(), worldContext.font = "bold 22px Arial", p = {
-            x: worldRect.width - worldContext.measureText(n.message).width -
-                15,
+            x: worldRect.width - worldContext.measureText(n.message).width - 15,
             y: worldRect.height + 40 - 55 * n.progress
         }, worldContext.translate(p.x, p.y), worldContext.fillStyle = "rgba( 0, 0, 0, " + 0.4 * n.progress + " )", worldContext.fillRect(-15, -30, 200, 100), worldContext.fillStyle = "rgba( 255, 255, 255, " + n.progress + " )", worldContext.fillText(n.message, 0, 0), V(p.x - 15, p.y - 30, 200, 100), worldContext.restore());
 
@@ -396,52 +402,25 @@ window.Ione = function () {
     }
 
     PlayerObject.prototype = new Point;
-    PlayerObject.prototype.isBoosted = function () {
+    PlayerObject.prototype.isBoosted = function() {
         return 0 != this.shield || 0 != this.gravityfactor
     };
     RedDot.prototype = new Point;
     PowerupObject.prototype = new Point;
-    PowerupObject.prototype.randomizeType = function () {
+    PowerupObject.prototype.randomizeType = function() {
         this.type = powerupStrings[Math.round(Math.random() * (powerupStrings.length - 1))];
     };
 
-    var fixedWorldWidth = 1000,
-        gameScaleAdjustment = 0,
-        desiredFrameRate = 60,
-        positionCatchUpFactor = 0.5,
-        defaultLives = 2,
-        maxStoredLives = 3,
-        baseGravityRate = 120,
-        shieldString = "shield",
-        lifeString = "life",
-        gravityWarpString = "gravitywarp",
-        timewarpString = "timewarp",
-        sizewarpString = "sizewarp",
-        powerupStrings = [shieldString, shieldString, lifeString, gravityWarpString, gravityWarpString, timewarpString, sizewarpString],
-        worldRect = {
+    var fixedWorldWidth = 1000, gameScaleAdjustment = 0, desiredFrameRate = 60, positionCatchUpFactor = 0.5, defaultLives = 2, maxStoredLives = 3, baseGravityRate = 120, shieldString = "shield", lifeString = "life", gravityWarpString = "gravitywarp", timewarpString = "timewarp", sizewarpString = "sizewarp", powerupStrings = [shieldString, shieldString, lifeString, gravityWarpString, gravityWarpString, timewarpString, sizewarpString], worldRect = {
             x: 0,
             y: 0,
             width: 0,
             height: 0
-        }, $game, world, worldContext, sendProgess, levelUp, endGame, cursorPos, getCursorPosition = null,
-        n = {
+        }, $game, world, worldContext, sendProgess, levelUp, endGame, cursorPos, getCursorPosition = null, n = {
             messsage: "",
             progress: 0,
             target: 0
-        }, u = [],
-        z = [],
-        U = [],
-        trailingPointsText = [],
-        playerObject = null,
-        playerActive = false,
-        gamePaused = false,
-        gameScore = 0,
-        gameTime = 0,
-        ra = 0,
-        I = 0,
-        W = [],
-        gameLevel = 1,
-        levelAttributeList = [
+        }, u = [], z = [], U = [], trailingPointsText = [], playerObject = null, playerActive = false, gamePaused = false, gameScore = 0, gameTime = 0, ra = 0, I = 0, W = [], gameLevel = 1, levelAttributeList = [
             {
                 factor: 1.2,
                 duration: 100,
@@ -497,8 +476,7 @@ window.Ione = function () {
                 duration: 4400,
                 multiplier: 2.8
             }
-        ],
-        baseMovementVector = {
+        ], baseMovementVector = {
             x: -1.3,
             y: 1
         };
@@ -509,12 +487,9 @@ window.Ione = function () {
             fps: 0,
             fpsMin: 1000,
             fpsMax: 0
-        }, da = 1000,
-        ea = 0,
-        ha = (new Date).getTime(),
-        ga = 0;
+        }, da = 1000, ea = 0, ha = (new Date).getTime(), ga = 0;
 
-    this.initialize = function ($canvas, cursorPostionFunction, progressCallback, levelUpCallback, gameendCallback) {
+    this.initialize = function($canvas, cursorPostionFunction, progressCallback, levelUpCallback, gameendCallback) {
         $game = $canvas.parent();
         world = $canvas[0];
         worldContext = world.getContext("2d");
@@ -530,28 +505,28 @@ window.Ione = function () {
         processGameFrame();
     };
 
-    this.refreshSizing = function () {
+    this.refreshSizing = function() {
         windowResize();
     }
 
-    this.startGame = function () {
+    this.startGame = function() {
         newGame();
     }
 
-    this.pauseGame = function () {
+    this.pauseGame = function() {
         gamePaused = true;
     };
 
-    this.resumeGame = function () {
+    this.resumeGame = function() {
         gamePaused = false;
         processGameFrame();
     };
 
-    this.gamePaused = function () {
+    this.gamePaused = function() {
         return gamePaused;
     };
 
-    this.gameInProgress = function () {
+    this.gameInProgress = function() {
         return playerActive;
     };
 };

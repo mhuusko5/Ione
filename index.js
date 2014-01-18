@@ -1,10 +1,9 @@
 var $window = $(window);
 var $document = $(document);
-$window.ready(function () {
-    var $body = $('body');
-    var $emptyStyle = $('<style>');
+$window.ready(function() {
     var $menu = $('#menu');
     var $startScreen = $('#startScreen');
+    var $quitInfo = $('#quitInfo');
     var $endScreen = $('#endScreen');
     var $endProgressLabel = $('#endProgressLabel');
     var $progressArea = $('#progressArea');
@@ -15,11 +14,13 @@ $window.ready(function () {
     var introSound = $('#introSound')[0];
     var repeatSound = $('#repeatSound')[0];
     var ione = new Ione();
-    var leapController = new Leap.Controller({enableGestures: true, frameEventName: 'animationFrame'});
+    var leapController = new Leap.Controller({enableGestures: true, frameEventName: 'deviceFrame'});
 
     introSound.loop = false;
     repeatSound.loop = true;
-    introSound.addEventListener('ended', function() { repeatSound.play() });
+    introSound.addEventListener('ended', function() {
+        repeatSound.play()
+    });
 
     function resetSound() {
         try {
@@ -27,8 +28,10 @@ $window.ready(function () {
             repeatSound.pause();
             introSound.currentTime = 0;
             repeatSound.currentTime = 0;
-        } catch (e) {};
+        } catch (e) {
+        }
     }
+
     resetSound();
 
     function pauseGame() {
@@ -97,9 +100,17 @@ $window.ready(function () {
 
     ////////////////////////////////////////////////////////////////////////////
 
+    var listeningToDisconnect = false;
+
     function leapConnected() {
         if (!leapController.sendingInput) {
             leapController.sendingInput = true;
+
+            if (!listeningToDisconnect) {
+                listeningToDisconnect = true;
+
+                leapController.on('deviceDisconnected', leapDisconnected);
+            }
 
             $leapWarning.css('display', 'none');
         }
@@ -118,6 +129,8 @@ $window.ready(function () {
     }
 
     function leapNotConnected() {
+        leapController.sendingInput = false;
+
         $leapWarning.css('display', 'block');
     }
 
@@ -137,6 +150,19 @@ $window.ready(function () {
                 fingerX *= window.innerWidth;
                 fingerY *= -window.innerHeight;
 
+                var sideGap = 2;
+                if (fingerX > window.innerWidth - sideGap) {
+                    fingerX = window.innerWidth - sideGap;
+                } else if (fingerX < 0) {
+                    fingerX = sideGap;
+                }
+
+                if (fingerY > window.innerHeight - sideGap) {
+                    fingerY = window.innerHeight - sideGap;
+                } else if (fingerY < 0) {
+                    fingerY = sideGap;
+                }
+
                 return { x: fingerX, y: fingerY };
             }
         }
@@ -150,24 +176,17 @@ $window.ready(function () {
     function ignoreLeapGestures(ms) {
         clearTimeout(gestureIgnoreTimer);
         ignoringGestures = true;
-        gestureIgnoreTimer = setTimeout(function () {
+        gestureIgnoreTimer = setTimeout(function() {
             ignoringGestures = false;
         }, ms);
     }
 
     var lastHandDate = new Date();
-    var lastFrameId = -1;
 
     function checkLeapGestures(leapFrame) {
-        if (ignoringGestures || !leapFrame || !leapFrame.valid || leapFrame.id == lastFrameId) {
-            return;
-        }
-
-        lastFrameId = leapFrame.id;
-
         leapConnected();
 
-        if (!nwFocused) {
+        if (!nwFocused || ignoringGestures || !leapFrame || !leapFrame.valid) {
             return;
         }
 
@@ -207,19 +226,9 @@ $window.ready(function () {
 
     ////////////////////////////////////////////////////////////////////////////
 
-    function respondToLeapMessages(messages, callback) {
-        for (var mKey in messages) {
-            leapController.on(messages[mKey], callback);
-        }
-    }
-
-    respondToLeapMessages(['deviceDisconnected', 'disconnect'], leapDisconnected);
-
-    respondToLeapMessages(['ready'], leapConnected);
-
     leapController.connect();
 
-    setTimeout(function () {
+    setTimeout(function() {
         if (!leapController.sendingInput) {
             leapNotConnected();
         }
@@ -229,8 +238,8 @@ $window.ready(function () {
 
     leapController.loop(checkLeapGestures);
 
-    $window.resize(function () {
-        $emptyStyle.appendTo($body).remove();
+    $window.resize(function() {
+        $('*', 'body').css('webkitTransform', 'scale(1)');
         ione.refreshSizing();
     });
 
@@ -239,31 +248,47 @@ $window.ready(function () {
     if (typeof require != 'undefined' && (nwGui = require('nw.gui'))) {
         var nwWin = nwGui.Window.get();
 
-        nwWin.on('blur', function () {
+        nwWin.on('blur', function() {
             pauseGame();
 
             nwFocused = false;
         });
 
-        nwWin.on('focus', function () {
+        nwWin.on('focus', function() {
             nwFocused = true;
         });
 
         nwWin.show(true);
 
-        nwWin.on('maximize', function () {
+        nwWin.on('maximize', function() {
             nwWin.focus();
 
             nwWin.enterFullscreen();
         });
 
-        nwWin.maximize();
+        var registeredEscape = false;
 
-        $document.keyup(function (e) {
-            if (e.keyCode == 27) {
-                nwGui.App.quit();
+        nwWin.on('enter-fullscreen', function() {
+            nwWin.focus();
+
+            if (!registeredEscape) {
+                registeredEscape = true;
+
+                setTimeout(function() {
+                    $('*').css('cursor', 'none');
+
+                    $quitInfo.animate({opacity: 1.0});
+
+                    $document.keyup(function(e) {
+                        if (e.keyCode == 27) {
+                            nwGui.App.quit();
+                        }
+                    });
+                }, 2000);
             }
         });
+
+        nwWin.maximize();
     } else {
         nwFocused = true;
     }
